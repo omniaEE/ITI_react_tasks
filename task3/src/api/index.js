@@ -55,13 +55,11 @@ APIClient.interceptors.request.use(
       return config;
     }
 
-    // Token expired, check refresh token
     if (isTokenExpire(refreshToken)) {
       removeTokenHandler();
       return config;
     }
 
-    // Wait for ongoing refresh if needed
     if (isRefreshing) {
       return new Promise((resolve) => {
         addRefreshSubscriber((newToken) => {
@@ -77,7 +75,6 @@ APIClient.interceptors.request.use(
       const res = await refreshTokeAPI({ refreshToken });
       const newToken = res.data.token;
 
-      // Update localStorage
       const updatedAuthStore = {
         ...authStore,
         token: newToken,
